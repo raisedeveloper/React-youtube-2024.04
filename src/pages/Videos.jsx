@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import VideoCard from '../components/VideoCard';
 
 const keywordUri = `https://youtube.googleapis.com/youtube/v3/search?key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet&q=surfing`;
 
@@ -27,19 +28,21 @@ export default function Videos() {
   // }, [keyword])
   return (
     <div>
-      <div>Videos {keyword ? `${keyword}로 검색` : 'Hot Trend'}</div>
+      <div style={{ marginBottom: '10px', color: "lightcoral", padding: '10px', textDecoration: 'overline' }}>Videos {keyword ? `${keyword}로 검색` : 'Hot Trend'}</div>
       {isLoading && <p><HourglassTopIcon />Loading</p>}
       {error && <p><WarningAmberIcon />Something is wrong!!!</p>}
       {videos && (
-        <ul>
-          {videos.map((video, index) => (
-            <li key={index}>{video.snippet.title}</li>
+        <div style={{textAlign: 'left', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1px', margin: '5px'}}>
+          {videos.map(video => (
+            <div key={video.id} style={{ flex: '1 0 21%', marginBottom: '1px', textAlign: 'left'}}>
+              <VideoCard video={video} />
+              <div>{video.title}</div>
+            </div>
           ))}
-          {/* {videos.map(video => (
-            {video.snippet.title}</li>
-          ))} */}
-        </ul>
+        </div>
       )}
     </div>
   )
+  
+
 }
