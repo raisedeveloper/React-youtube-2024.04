@@ -6,12 +6,11 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import VideoCard from '../components/VideoCard';
 
-const keywordUri = `https://youtube.googleapis.com/youtube/v3/search?key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet&q=surfing`;
-
-const popularUri = `https://youtube.googleapis.com/youtube/v3/videos?chart=mostPopular&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet`;
 
 export default function Videos() {
   const { keyword } = useParams();
+  const keywordUri = `https://youtube.googleapis.com/youtube/v3/search?key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet&q=${keyword}`;
+  const popularUri = `https://youtube.googleapis.com/youtube/v3/videos?chart=mostPopular&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet`;
   const { isLoading, error, data: videos } = useQuery({
     queryKey: ['videos', keyword],
     queryFn: async () => {
@@ -28,7 +27,7 @@ export default function Videos() {
   // }, [keyword])
   return (
     <div>
-      <div style={{ marginBottom: '10px', color: "lightcoral", padding: '10px', textDecoration: 'overline' }}>Videos {keyword ? `${keyword}로 검색` : 'Hot Trend'}</div>
+      <div style={{ marginBottom: '10px', color: "lightcoral", padding: '10px', textDecoration: 'overline' }}>Videos {keyword ? `${keyword} 검색` : 'Hot Trend'}</div>
       {isLoading && <p><HourglassTopIcon />Loading</p>}
       {error && <p><WarningAmberIcon />Something is wrong!!!</p>}
       {videos && (
@@ -43,6 +42,4 @@ export default function Videos() {
       )}
     </div>
   )
-  
-
 }
