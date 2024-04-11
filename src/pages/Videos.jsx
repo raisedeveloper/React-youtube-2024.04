@@ -1,41 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
-export default function NotFound() {
-  const { keyword } = useParams();
-  const { isLoading, error, data: videos } = useQuery(); ({ /*세팅따로 할 필요없이 끝나면 알아서 꺼짐*/
-    queryKey: ['videos', keyword], /* async함수 : then, else, finally 등 promise 함수 지원 역할 - 동작하는데는 있으나 없으나 상관없음 */
-    queryFn: async () => {
-      return axios
-        .get(`/data/${keyword ? 'search' : 'popular'}.json`)
-        .then(res => res.data.items);
-    },
-    staleTiem: 1000 * 60 * 1, // 옵션 staleTime 신선하지 않은, 탁한 / 1분 , ms 단위로 지정가능
+const keywordUri = `https://youtube.googleapis.com/youtube/v3/search?key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet&q=surfing`;
 
+const popularUri = `https://youtube.googleapis.com/youtube/v3/videos?chart=mostPopular&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=25&part=snippet`;
+
+export default function Videos() {
+  const { keyword } = useParams();
+  const { isLoading, error, data: videos } = useQuery({
+    queryKey: ['videos', keyword],
+    queryFn: async () => {
+      const uri = keyword ? keywordUri + keyword : popularUri;
+      return axios
+        // .get(`/data/${keyword ? 'search' : 'popular'}.json`)
+        .get(uri)
+        .then(res => res.data.items);
+    }, staleTime: 1000 * 60 * 1,
   });
   // useEffect(() => {
   //   axios.get(`/data/${keyword ? 'search' : 'popular'}.json`)
-  //     .then(res => {
-  //       setVideos(res.data.items);
-  //       console.log(videos);
-  //     });
-  // }, [keyword]);
+  //     .then(res => setVideos(res.data.items))
+  // }, [keyword])
   return (
-    <>
+    <div>
       <div>Videos {keyword ? `${keyword}로 검색` : 'Hot Trend'}</div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Something is wrong!!!</p>}
-      {Videos && (
+      {isLoading && <p><HourglassTopIcon />Loading</p>}
+      {error && <p><WarningAmberIcon />Something is wrong!!!</p>}
+      {videos && (
         <ul>
-          {videos.map(video => {
-            <li key={video.id}>{video.snippet.title}</li>
-          })}
+          {videos.map((video, index) => (
+            <li key={index}>{video.snippet.title}</li>
+          ))}
+          {/* {videos.map(video => (
+            {video.snippet.title}</li>
+          ))} */}
         </ul>
       )}
-    </>
+    </div>
   )
 }
