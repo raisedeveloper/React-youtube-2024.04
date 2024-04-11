@@ -12,7 +12,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export default function SearchHeader() {
   const { keyword } = useParams();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const [text, setText] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -24,7 +24,6 @@ export default function SearchHeader() {
   const handleMenuItemClick = (selectedItem) => {
     setText(selectedItem);
     setShowDropdown(false);
-    navigate('/');
   }
 
   const handleNavigateToHome = () => {
@@ -37,9 +36,10 @@ export default function SearchHeader() {
 
   return (
     <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+      <Link to='/'></Link>
       <Typography variant="h5" color='error' sx={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={handleNavigateToHome}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <YouTubeIcon color="error" fontSize="large" style={{padding: '10px'}}/>
+          <YouTubeIcon style={{ padding: '0px 10px 0px 0px', margin: '0px 0px 2px 0px' }} color="error" fontSize="large" />
           Youtube
         </Stack>
       </Typography>
@@ -47,13 +47,13 @@ export default function SearchHeader() {
       <Paper
         component="form"
         onSubmit={handleSubmit}
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', position: 'relative', width: 400 }}
+        sx={{ p: '10px 0px 10px 650px', display: 'flex', alignItems: 'center', position: 'relative', width: 400 }}
       >
         <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={() => setShowDropdown(!showDropdown)}>
           <MenuIcon />
         </IconButton>
         {showDropdown && (
-          <div style={{ position: 'absolute', top: '100%', left: 10, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.76)', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', borderRadius: 10, border: '2px solid darkgray', padding: '5px 0', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ position: 'absolute', top: '100%', left: 650, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.76)', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', borderRadius: 10, border: '2px solid darkgray', padding: '5px 0', display: 'flex', flexDirection: 'column' }}>
             <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', borderTopLeftRadius: 10, borderTopRightRadius: 10, cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('교육'); setShowDropdown(false); }}>교육</div>
             <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('문화'); setShowDropdown(false); }}>문화</div>
             <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('음악'); setShowDropdown(false); }}>음악</div>

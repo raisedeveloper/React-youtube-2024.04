@@ -27,7 +27,7 @@ export default function Videos() {
   // }, [keyword])
   return (
     <div>
-      <div style={{ marginBottom: '10px', color: "lightcoral", padding: '10px', textDecoration: 'overline' }}>Videos {keyword ? `${keyword} 검색` : 'Hot Trend'}</div>
+      <div style={{ marginBottom: '10px', color: "lightcoral", padding: '0px 0px 15px 25px'}}>Videos {keyword ? `${keyword} 검색` : 'Hot Trend'}</div>
       {isLoading && <p><HourglassTopIcon />Loading</p>}
       {error && <p><WarningAmberIcon />Something is wrong!!!</p>}
       {videos && (
