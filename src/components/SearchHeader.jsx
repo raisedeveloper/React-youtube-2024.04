@@ -11,6 +11,15 @@ import Typography from '@mui/material/Typography';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export default function SearchHeader() {
+  const dropdownItemStyle = {
+    borderBottom: '1px solid lightgray',
+    margin: '0 5px',
+    padding: '8px 16px',
+    cursor: 'pointer',
+    color: 'lightcoral',
+    transition: 'color 0.5s',
+    backgroundColor: 'white'
+  }
   const { keyword } = useParams();
   const navigate = useNavigate();
   const [text, setText] = useState('');
@@ -35,36 +44,38 @@ export default function SearchHeader() {
   }, [keyword]);
 
   return (
-    <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-      <Link to='/'></Link>
-      <Typography variant="h5" color='error' sx={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={handleNavigateToHome}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <YouTubeIcon style={{ padding: '0px 10px 0px 0px', margin: '0px 0px 2px 0px' }} color="error" fontSize="large" />
-          Youtube
-        </Stack>
-      </Typography>
+    <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flex: 1, justifyContent: "space-between", margin: '0 20px' }}>
+      <Link to='/' style={{textDecoration:'none'}}>
+        <Typography variant="h5" color='error' sx={{ fontWeight: 'bold', cursor: 'pointer', fontSize: 50  }} onClick={handleNavigateToHome}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <YouTubeIcon style={{ paddingBottom: '10px', marginLeft: '2px', fontSize: 60 }} color="error" fontSize="large" />
+            Youtube
+          </Stack>
+        </Typography>
+      </Link>
+
 
       <Paper
         component="form"
         onSubmit={handleSubmit}
-        sx={{ p: '10px 0px 10px 650px', display: 'flex', alignItems: 'center', position: 'relative', width: 400 }}
+        sx={{ marginLeft: '650px', p: '10px 0px 10px 10px', display: 'flex', alignItems: 'center', position: 'relative', width: 400 }}
       >
         <IconButton sx={{ p: '10px' }} aria-label="menu" onClick={() => setShowDropdown(!showDropdown)}>
           <MenuIcon />
         </IconButton>
-        {showDropdown && (
-          <div style={{ position: 'absolute', top: '100%', left: 650, zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.76)', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', borderRadius: 10, border: '2px solid darkgray', padding: '5px 0', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', borderTopLeftRadius: 10, borderTopRightRadius: 10, cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('교육'); setShowDropdown(false); }}>교육</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('문화'); setShowDropdown(false); }}>문화</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('음악'); setShowDropdown(false); }}>음악</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('강연'); setShowDropdown(false); }}>강연</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('인물'); setShowDropdown(false); }}>인물</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('게임'); setShowDropdown(false); }}>게임</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('먹방'); setShowDropdown(false); }}>먹방</div>
-            <div style={{ borderBottom: '1px solid lightgray', margin: '0 10px', padding: '8px 16px', cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('아동'); setShowDropdown(false); }}>아동</div>
-            <div style={{ margin: '0 10px', padding: '8px 16px', borderBottomLeftRadius: 10, borderBottomRightRadius: 10, cursor: 'pointer', color: 'lightcoral', transition: 'color 0.3s' }} onClick={() => { handleMenuItemClick('개그'); setShowDropdown(false); }}>개그</div>
-          </div>
-        )}
+          {showDropdown && (
+            <div style={{ position: 'absolute', top: '100%', zIndex: 1, backgroundColor: 'rgba(255, 255, 255, 0.76)', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', borderRadius: 10, border: '2px solid darkgray', padding: '5px 0', display: 'flex', flexDirection: 'column' }}>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('교육'); setShowDropdown(false); }}>교육</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('문화'); setShowDropdown(false); }}>문화</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('음악'); setShowDropdown(false); }}>음악</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('강연'); setShowDropdown(false); }}>강연</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('인물'); setShowDropdown(false); }}>인물</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('게임'); setShowDropdown(false); }}>게임</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('먹방'); setShowDropdown(false); }}>먹방</div>
+              <div style={dropdownItemStyle} onClick={() => { handleMenuItemClick('아동'); setShowDropdown(false); }}>아동</div>
+              <div style={{... dropdownItemStyle, border: '0'}} onClick={() => { handleMenuItemClick('개그'); setShowDropdown(false); }}>개그</div>
+            </div>
+          )}
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Search..."
@@ -74,7 +85,6 @@ export default function SearchHeader() {
         <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
-        <Divider sx={{ height: 28 }} />
       </Paper>
     </Stack>
   )

@@ -1,23 +1,30 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+
 import { formatAgo } from "../util/date";
+
 
 export default function VideoCard({ video }) {
   const navigate = useNavigate();
   const { title, thumbnails, channelTitle, publishedAt } = video.snippet;
-  if (typeof (video.id) !== 'string' && video.id.kind === 'youtube#channel')
-    return;
-  const videoId = typeof (video.id) === 'string' ? video.id : video.id.videoID;
+  // if (typeof (video.id) !== 'string' && video.id.kind === 'youtube#channel')
+  //   return;
+  const videoId = typeof(video.id) === 'string' ? video.id : video.id.videoId;
   return (
-    <div onClick={() => {
-      navigate(`/videos/watch/${videoId}`)
-    }}>
-      <img src={thumbnails.medium.url} alt={title} width={250}/>
-      <div>
-        <p style={{padding: '0px 40px 0px 0px'}}>{title}</p>
-        <p style={{padding: '0px 40px 0px 0px'}}>{channelTitle}</p>
-        <p style={{padding: '0px 40px 0px 0px'}}>{formatAgo(publishedAt, 'ko')}</p>
-      </div>
-    </div>
+    <Card
+      width={250} onClick={() => { navigate(`/videos/watch/${videoId}`, { state: { video } }) }}
+    >
+      <CardContent>
+        <img src={thumbnails.medium.url} alt={title} width={250} />
+        <div>
+          <Typography sx={{ fontSize: 16, fontWeight: 'bold' }}>{title}</Typography>
+          <Typography>{channelTitle}</Typography>
+          <Typography>{formatAgo(publishedAt, 'ko')}</Typography>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
